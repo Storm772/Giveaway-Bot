@@ -1,6 +1,6 @@
 # Discord Giveaways Bot 🎉
 
-Welcome to the **Discord Giveaways Bot** project! This bot is built using Node.js and is designed to facilitate giveaways on your Discord server effortlessly. Whether you want to reward your community or engage your server members, this bot has you covered.
+This bot is built using **Node.js** and is designed to facilitate giveaways on your Discord server effortlessly. Whether you want to reward your community or engage your server members, this bot has you covered.
 
 ## Features ✨
 
