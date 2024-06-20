@@ -1,4 +1,4 @@
-# Discord Giveaways Bot 🎉
+# Discord Giveaway Bot 🎉
 
 This bot is built using **Node.js** and is designed to facilitate giveaways on your Discord server effortlessly. Whether you want to reward your community or engage your server members, this bot has you covered.
 
@@ -22,8 +22,8 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/discord-giveaways-bot.git
-    cd discord-giveaways-bot
+    git clone https://github.com/storm_772/giveaway-bot.git
+    cd discord-giveaway-bot
     ```
 
 2. Install the dependencies:
@@ -31,9 +31,10 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
     npm install
     ```
 
-3. Create a `.env` file and add your Discord bot token:
+3. Create a `.env` file and add your Discord bot token and Client id:
     ```env
     DISCORD_TOKEN=your_discord_bot_token
+    CLIENT_ID=your_bot_client_id
     ```
 
 4. Start the bot:
@@ -45,28 +46,21 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
 
 ### Commands
 
-- **`!startgiveaway`**: Start a new giveaway.
+- **`/gcreate`**: Create a new giveaway.
     ```plaintext
-    !startgiveaway [duration] [number of winners] [prize]
-    ```
-    Example:
-    ```plaintext
-    !startgiveaway 1d 1 Free Nitro
+    /gcreate
     ```
 
-- **`!endgiveaway`**: End an ongoing giveaway immediately.
+- **`/gend`**: End an ongoing giveaway immediately.
     ```plaintext
-    !endgiveaway [giveawayID]
+    /gend [giveawayID]
     ```
 
-- **`!reroll`**: Reroll the winners of a giveaway.
+- **`/greroll`**: Reroll the winners of a giveaway.
     ```plaintext
-    !reroll [giveawayID]
+    /greroll [giveawayID]
     ```
 
-### Configuration
-
-You can customize the bot settings in the `config.json` file. Adjust parameters like the default giveaway duration, prefix for commands, etc.
 
 ## Contributing 🤝
 
@@ -80,7 +74,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [Discord.js](https://discord.js.org/) for providing an excellent library for Discord API.
 - [Node.js](https://nodejs.org/) for the powerful runtime environment.
-- All contributors and users for their support and feedback.
 
 ---
 
@@ -88,4 +81,4 @@ Feel free to reach out if you have any questions or need assistance. Happy givin
 
 ---
 
-**Repository**: [GitHub - yourusername/discord-giveaways-bot](https://github.com/yourusername/discord-giveaways-bot)
+**Repository**: [GitHub - yourusername/discord-giveaways-bot](https://github.com/storm772/giveaway-bot)
