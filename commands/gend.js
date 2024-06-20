@@ -14,48 +14,37 @@ module.exports = {
 
       console.log('[DEBUG] Executing /gend command... 🟢');
       const message = await interaction.channel.messages.fetch(messageId);
-      if (!message) {
-        throw new Error('Message with the given ID not found.');
-      }
       const reaction = message.reactions.cache.get('🎉');
+
       if (!reaction) {
         throw new Error('No 🎉 reactions found on the message.');
       }
 
       const users = reaction.users.cache.filter(user => !user.bot);
-      if (users.size > 0) {
-        const winner = users.random();
-        const prize = message.embeds[0] ? message.embeds[0].description.match(/Prize: (.*)/)[1] : 'Unknown Prize';
+      const numberOfWinners = message.content.match(/🏆 Number of winners: \*\*(\d+)\*\*/)[1];
+      if (users.size >= numberOfWinners) {
+        const winners = users.random(numberOfWinners);
+        winners.forEach(async winner => {
+          const embed = new EmbedBuilder()
+            .setColor('#FFD700')
+            .setTitle('🎉 Congratulations!')
+            .setDescription(`You have won the giveaway!`)
+            .setTimestamp()
+            .setFooter({ text: 'Giveaway Bot', iconURL: interaction.client.user.avatarURL() });
 
-        const embed = new EmbedBuilder()
-          .setColor('#FFD700')
-          .setTitle('🎉 Congratulations!')
-          .setDescription(`You have won the **${prize}** in the giveaway!`)
-          .setTimestamp()
-          .setFooter({ text: 'Giveaway Bot', iconURL: interaction.client.user.avatarURL() });
-
-        await message.channel.send({ content: `🎊 Congratulations ${winner}! You won the **${prize}**! 🎉` });
-        await winner.send({ embeds: [embed] })
-          .catch(err => console.error('[ERROR] Failed to send DM to winner: ❌', err));
-
+          await message.channel.send({ content: `🎊 Congratulations ${winner}! You won the giveaway! 🎉` });
+          await winner.send({ embeds: [embed] });
+        });
         await message.edit('⏲️ **Giveaway ended!** 🎉');
         console.log('[DEBUG] Giveaway ended successfully. ✅');
 
-        interaction.reply({ content: '🟢 Giveaway ended successfully. The winner has been selected!', ephemeral: true });
+        interaction.reply({ content: '🟢 Giveaway ended successfully. The winners have been selected!', ephemeral: true });
       } else {
-        interaction.reply('⚠️ No participants in the giveaway.');
+        interaction.reply('⚠️ Not enough participants in the giveaway.');
       }
     } catch (error) {
       console.error('[ERROR] Error ending giveaway: ❌', error);
-      if (error.message.includes('Unknown Message')) {
-        interaction.reply({ content: '⚠️ Error: Unknown Message. Please ensure the message ID is correct.', ephemeral: true });
-      } else if (error.message.includes('No 🎉 reactions found')) {
-        interaction.reply({ content: '⚠️ Error: No 🎉 reactions found on the message.', ephemeral: true });
-      } else if (error.message.includes('Message with the given ID not found')) {
-        interaction.reply({ content: '⚠️ Error: Message with the given ID not found.', ephemeral: true });
-      } else {
-        interaction.reply({ content: '⚠️ An unexpected error occurred while ending the giveaway. Please try again later.', ephemeral: true });
-      }
+      interaction.reply({ content: `⚠️ There was an error while ending the giveaway: ${error.message || 'Unknown error.'}`, ephemeral: true });
     }
   },
 };

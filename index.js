@@ -4,7 +4,6 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 require('dotenv').config();
-const { exec } = require('child_process');
 
 const client = new Client({
   intents: [
@@ -84,19 +83,7 @@ client.login(process.env.DISCORD_BOT_TOKEN).then(() => {
   console.log('[DEBUG] Bot logged in successfully. ✅');
 }).catch(err => {
   console.error('[ERROR] Bot failed to log in: ❌', err);
-});
-
-// Start Express Server by calling server.js
-console.log('[DEBUG] Starting web server.');
-exec('node server.js', (error, stdout, stderr) => {
-  if (error) {
-    console.error(`[ERROR] Error starting web server: ❌ ${error}`);
-    return;
-  }
-  if (stderr) {
-    console.error(`[ERROR] Web server error: ❌ ${stderr}`);
-  }
-  console.log(`[DEBUG] Web server output: ✅ ${stdout}`);
+  process.exit(1);
 });
 
 // Anti-crash protection

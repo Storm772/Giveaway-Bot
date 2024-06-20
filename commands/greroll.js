@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
-const giveawayStore = require('../index');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,28 +19,25 @@ module.exports = {
         throw new Error('No 🎉 reactions found on the message.');
       }
 
-      if (!giveawayStore.has(message.id)) {
-        throw new Error('The provided message ID is not a giveaway message.');
-      }
-
       const users = reaction.users.cache.filter(user => !user.bot);
-      if (users.size > 0) {
-        const winner = users.random();
-        await interaction.reply(`🔄 Congratulations ${winner}! You won the reroll! 🎉`);
-        const embed = new EmbedBuilder()
-          .setColor('#FFD700')
-          .setTitle('🎉 Congratulations!')
-          .setDescription('You have won the reroll giveaway!')
-          .addFields(
-            { name: '🎁 Prize', value: giveawayStore.get(message.id).prize, inline: true },
-            { name: '⏲️ Ended At', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true }
-          )
-          .setFooter('Giveaway Bot', interaction.client.user.avatarURL())
-          .setTimestamp();
+      const numberOfWinners = message.content.match(/🏆 Number of winners: \*\*(\d+)\*\*/)[1];
+      if (users.size >= numberOfWinners) {
+        const winners = users.random(numberOfWinners);
+        winners.forEach(async winner => {
+          const embed = new EmbedBuilder()
+            .setColor('#FFD700')
+            .setTitle('🎉 Reroll Result!')
+            .setDescription(`You have won the rerolled giveaway!`)
+            .setTimestamp()
+            .setFooter({ text: 'Giveaway Bot', iconURL: interaction.client.user.avatarURL() });
 
-        await winner.send({ embeds: [embed] });
+          await winner.send({ embeds: [embed] });
+          await interaction.followUp(`🎊 Congratulations ${winner}! You won the rerolled giveaway! 🎉`);
+        });
+        await message.edit('⏲️ **Giveaway rerolled!** 🎉');
+        console.log('[DEBUG] Giveaway rerolled successfully. ✅');
       } else {
-        await interaction.reply('⚠️ No one entered the giveaway.');
+        interaction.reply('⚠️ Not enough participants in the giveaway.');
       }
     } catch (error) {
       console.error('[ERROR] Error rerolling giveaway: ❌', error.message || error);

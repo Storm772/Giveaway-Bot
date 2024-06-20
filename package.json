@@ -9,7 +9,7 @@
   "dependencies": {
     "@discordjs/rest": "^2.3.0",
     "concurrently": "^6.2.1",
-    "discord-api-types": "^0.37.89",
+    "discord-api-types": "^0.37.90",
     "discord.js": "^14.15.3",
     "dotenv": "^10.0.0",
     "express": "^4.19.2",

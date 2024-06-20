@@ -11,6 +11,7 @@ module.exports = {
       }
 
       console.log('[DEBUG] Executing /gcreate command... 🟢');
+
       const modal = new ModalBuilder()
         .setCustomId('gcreateModal')
         .setTitle('🎉 Create a Giveaway')
@@ -26,6 +27,13 @@ module.exports = {
             new TextInputBuilder()
               .setCustomId('duration')
               .setLabel('⏲️ Duration (in minutes)')
+              .setStyle(TextInputStyle.Short)
+              .setRequired(true)
+          ),
+          new ActionRowBuilder().addComponents(
+            new TextInputBuilder()
+              .setCustomId('winners')
+              .setLabel('🏆 Number of Winners')
               .setStyle(TextInputStyle.Short)
               .setRequired(true)
           )
@@ -47,10 +55,18 @@ module.exports = {
 
       const prize = interaction.fields.getTextInputValue('prize');
       const duration = parseInt(interaction.fields.getTextInputValue('duration'));
+      const numberOfWinners = parseInt(interaction.fields.getTextInputValue('winners'));
 
       if (isNaN(duration) || duration <= 0) {
         return interaction.reply({
           content: '⚠️ Duration must be a positive number of minutes.',
+          ephemeral: true,
+        });
+      }
+
+      if (isNaN(numberOfWinners) || numberOfWinners <= 0) {
+        return interaction.reply({
+          content: '⚠️ Number of winners must be a positive integer.',
           ephemeral: true,
         });
       }
@@ -61,6 +77,7 @@ module.exports = {
         🎉 **Giveaway Started!**
         🎁 Prize: **${prize}**
         ⏲️ Ends at: **<t:${Math.floor(endTime.getTime() / 1000)}:T>**
+        🏆 Number of winners: **${numberOfWinners}**
         React with 🎉 to enter!
       `;
 
@@ -82,26 +99,28 @@ module.exports = {
             throw new Error('No 🎉 reactions found on the message.');
           }
           const users = reactions.users.cache.filter((user) => !user.bot);
-          if (users.size > 0) {
-            const winner = users.random();
-            const embed = new EmbedBuilder()
-              .setColor('#FFD700')
-              .setTitle('🎉 Congratulations!')
-              .setDescription(`You have won the **${prize}** in the giveaway!`)
-              .addFields(
-                { name: '🎁 Prize', value: prize, inline: true },
-                { name: '⏲️ Ended At', value: `<t:${Math.floor(endTime.getTime() / 1000)}:F>`, inline: true },
-                { name: '🎉 Server', value: interaction.guild.name, inline: true }
-              )
-              .setFooter({ text: 'Giveaway Bot', iconURL: interaction.client.user.avatarURL() })
-              .setTimestamp();
+          if (users.size >= numberOfWinners) {
+            const winners = users.random(numberOfWinners);
+            winners.forEach(async winner => {
+              const embed = new EmbedBuilder()
+                .setColor('#FFD700')
+                .setTitle('🎉 Congratulations!')
+                .setDescription(`You have won the **${prize}** in the giveaway!`)
+                .addFields(
+                  { name: '🎁 Prize', value: prize, inline: true },
+                  { name: '⏲️ Ended At', value: `<t:${Math.floor(endTime.getTime() / 1000)}:F>`, inline: true },
+                  { name: '🎉 Server', value: interaction.guild.name, inline: true }
+                )
+                .setFooter({ text: 'Giveaway Bot', iconURL: interaction.client.user.avatarURL() })
+                .setTimestamp();
 
-            await winner.send({ embeds: [embed] });
-            await interaction.followUp(`🎊 Congratulations ${winner}! You won the **${prize}**! 🎉`);
+              await winner.send({ embeds: [embed] });
+              await interaction.followUp(`🎊 Congratulations ${winner}! You won the **${prize}**! 🎉`);
+            });
+            await message.edit(`${messageContent}\n\n⏲️ **Giveaway ended!**`);
           } else {
-            await interaction.followUp('⚠️ No one entered the giveaway.');
+            await interaction.followUp('⚠️ Not enough participants in the giveaway.');
           }
-          await message.edit(`${messageContent}\n\n⏲️ **Giveaway ended!**`);
         } catch (err) {
           console.error('[ERROR] Error selecting winner: ❌', err);
           await interaction.followUp('⚠️ An error occurred while selecting the winner.');
