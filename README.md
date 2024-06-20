@@ -89,4 +89,4 @@ Feel free to reach out if you have any questions or need assistance. Happy givin
 
 ---
 
-**Repository**: [GitHub - yourusername/discord-giveaways-bot](https://github.com/storm772/giveaway-bot)
+**Repository**: [GitHub - Giveaway-Bot](https://github.com/storm772/giveaway-bot)
