@@ -64,10 +64,10 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
     /greroll [giveawayID]
     ```
 
- - **`/gping`**: Displays ping.
- ```plaintext
+  - **`/gping`**: Displays ping.
+  ```plaintext
    /gping
-   ```
+    ```
 
 
 ## Contributing 🤝
