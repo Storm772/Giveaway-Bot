@@ -1,20 +1,20 @@
 {
-  "name": "Purple Giveaways",
+  "name": "discord-giveaway-bot",
   "version": "1.0.0",
-  "description": "My Discord Bot and Website",
+  "description": "A Discord bot for creating and managing giveaways",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"node server.js\" \"node index.js\""
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
+  "author": "Storm_772",
+  "license": "MIT",
   "dependencies": {
     "@discordjs/rest": "^2.3.0",
-    "concurrently": "^6.2.1",
     "discord-api-types": "^0.37.90",
     "discord.js": "^14.15.3",
     "dotenv": "^10.0.0",
-    "express": "^4.19.2",
-    "express-rate-limit": "^5.5.1",
-    "helmet": "^4.6.0"
+    "nodemon": "^3.1.4"
   },
   "engines": {
     "node": ">=14.0.0"
