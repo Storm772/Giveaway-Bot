@@ -14,7 +14,7 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v14.x or later)
+- [Node.js](https://nodejs.org/) (v20.x or later)
 - [Discord.js](https://discord.js.org/) (v14.x or later)
 - A Discord bot token (create one [here](https://discord.com/developers/applications))
 
