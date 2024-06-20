@@ -31,7 +31,7 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
     npm install
     ```
 
-3. Create a `.env` file and add your Discord bot token and Client id:
+3. Create a `.env` file and add the following:
     ```env
     DISCORD_BOT_TOKEN=your_discord_bot_token
     CLIENT_ID=your_bot_client_id
