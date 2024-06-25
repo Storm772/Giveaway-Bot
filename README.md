@@ -60,14 +60,14 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
     /greroll [giveawayID]
     ```
 
+ - **`/glist`**: List all active giveaways.
+    ```plaintext
+    /glist
+    ```
+
  - **`/gping`**: Display the ping of the bot.
    ```plaintext
     /gping
-    ```
-
-   - **`/glist`**: List all active giveaways.
-    ```plaintext
-    /glist
     ```
 
 
