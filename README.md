@@ -35,9 +35,6 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
     ```env
     DISCORD_BOT_TOKEN=your_discord_bot_token
     CLIENT_ID=your_bot_client_id
-    PORT=your_port_for_the_website
-    DISPLAY_GREEN_POINT=true/false
-    PASSWORD_HASH=your_hashed_password
     ```
 
 4. Start the bot:
