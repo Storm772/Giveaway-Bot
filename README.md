@@ -8,7 +8,6 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
 - **Customizable Giveaways**: Set up giveaways with various customization options like duration, number of winners, and more.
 - **Automated Winner Selection**: The bot automatically selects winners once the giveaway ends.
 - **User-friendly Commands**: Simple and intuitive commands for both admins and participants.
-- **Multi-Server Support**: Use the bot across multiple Discord servers.
 
 ## Getting Started 🚀
 
@@ -61,9 +60,14 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
     /greroll [giveawayID]
     ```
 
- - **`/gping`**: Displays ping.
+ - **`/gping`**: Display the ping of the bot.
    ```plaintext
     /gping
+    ```
+
+   - **`/glist`**: List all active giveaways.
+    ```plaintext
+    /glist
     ```
 
 
