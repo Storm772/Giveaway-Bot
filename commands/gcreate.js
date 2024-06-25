@@ -72,12 +72,14 @@ module.exports = {
       }
 
       const endTime = new Date(Date.now() + duration * 60000);
+      const creator = interaction.user;
 
       const messageContent = `
         🎉 **Giveaway Started!**
         🎁 Prize: **${prize}**
         ⏲️ Ends at: **<t:${Math.floor(endTime.getTime() / 1000)}:T>**
         🏆 Number of winners: **${numberOfWinners}**
+        👤 Creator: ${creator}
         React with 🎉 to enter!
       `;
 
@@ -109,7 +111,8 @@ module.exports = {
                 .addFields(
                   { name: '🎁 Prize', value: prize, inline: true },
                   { name: '⏲️ Ended At', value: `<t:${Math.floor(endTime.getTime() / 1000)}:F>`, inline: true },
-                  { name: '🎉 Server', value: interaction.guild.name, inline: true }
+                  { name: '🎉 Server', value: interaction.guild.name, inline: true },
+                  { name: '👤 Creator', value: creator.tag, inline: true }
                 )
                 .setFooter({ text: 'Giveaway Bot', iconURL: interaction.client.user.avatarURL() })
                 .setTimestamp();
