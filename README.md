@@ -23,7 +23,7 @@ This bot is built using **Node.js** and is designed to facilitate giveaways on y
 1. Clone the repository:
     ```bash
     git clone https://github.com/storm_772/giveaway-bot.git
-    cd discord-giveaway-bot
+    cd giveaway-bot
     ```
 
 2. Install the dependencies:
