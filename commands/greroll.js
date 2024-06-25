@@ -17,26 +17,34 @@ module.exports = {
       if (!message) {
         throw new Error('Message not found.');
       }
+
+      console.log('[DEBUG] Looking for giveaway with message ID:', messageId);
+      console.log('[DEBUG] Currently active giveaways:', Array.from(global.activeGiveaways.keys()));
+
+      const giveaway = global.activeGiveaways.get(messageId);
+      if (!giveaway) {
+        throw new Error('Giveaway not found.');
+      }
+
+      console.log('[DEBUG] Retrieved giveaway:', giveaway);
+
       const reaction = message.reactions.cache.get('🎉');
       if (!reaction) {
         throw new Error('No 🎉 reactions found on the message.');
       }
 
       const users = reaction.users.cache.filter(user => !user.bot);
-      const numberOfWinners = parseInt(message.content.match(/🏆 Number of winners: \*\*(\d+)\*\*/)[1]);
-      const creator = message.content.match(/👤 Creator: <@(\d+)>/)[1] ? `<@${message.content.match(/👤 Creator: <@(\d+)>/)[1]}>` : 'Unknown';
-
-      if (users.size >= numberOfWinners) {
-        const winners = users.random(numberOfWinners);
+      if (users.size >= giveaway.numberOfWinners) {
+        const winners = users.random(giveaway.numberOfWinners);
         winners.forEach(async winner => {
           const embed = new EmbedBuilder()
             .setColor('#FFD700')
             .setTitle('🎉 Reroll Result!')
             .setDescription(`You have won the rerolled giveaway!`)
             .addFields(
-              { name: '🎁 Prize', value: message.embeds[0].description.split('**')[1], inline: true },
+              { name: '🎁 Prize', value: giveaway.prize, inline: true },
               { name: '🎉 Server', value: interaction.guild.name, inline: true },
-              { name: '👤 Creator', value: creator, inline: true }
+              { name: '👤 Creator', value: giveaway.creator.tag, inline: true }
             )
             .setTimestamp()
             .setFooter({ text: 'Giveaway Bot', iconURL: interaction.client.user.avatarURL() });
@@ -50,7 +58,7 @@ module.exports = {
         interaction.reply('⚠️ Not enough participants in the giveaway.');
       }
     } catch (error) {
-      console.error('[ERROR] Error rerolling giveaway: ❌', error.message || error);
+      console.error('[ERROR] Error rerolling giveaway: ❌', error);
       interaction.reply({ content: `⚠️ There was an error while rerolling the giveaway: ${error.message || 'Unknown error.'}`, ephemeral: true });
     }
   },

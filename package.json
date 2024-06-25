@@ -1,6 +1,6 @@
 {
-  "name": "discord-giveaway-bot",
-  "version": "1.0.0",
+  "name": "giveaway-bot",
+  "version": "2.0.0",
   "description": "A Discord bot for creating and managing giveaways",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,8 @@
     "discord-api-types": "^0.37.90",
     "discord.js": "^14.15.3",
     "dotenv": "^10.0.0",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "npm": "^10.8.1"
   },
   "engines": {
     "node": ">=14.0.0"

@@ -13,6 +13,8 @@ const client = new Client({
   ],
 });
 
+global.activeGiveaways = new Map();
+
 client.commands = new Collection();
 const commands = [];
 
@@ -31,7 +33,6 @@ function loadFiles(directoryPath, type) {
   return files;
 }
 
-// Load Commands (with logging)
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = loadFiles(commandsPath, 'command');
 for (const file of commandFiles) {
@@ -40,14 +41,12 @@ for (const file of commandFiles) {
     const command = require(filePath);
     client.commands.set(command.data.name, command);
     commands.push(command.data.toJSON());
-    console.log(`[DEBUG] Command '${command.data.name}' has been loaded successfully. ✅`);
   } catch (err) {
     console.error(`[ERROR] Error loading command file '${file}': ❌`, err);
   }
 }
-console.log('[DEBUG] Loaded commands:', commands);
+console.log('[DEBUG] Loaded commands:', commands.map(cmd => cmd.name));
 
-// Register Commands Globally
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_BOT_TOKEN);
 
 (async () => {
@@ -60,7 +59,6 @@ const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_BOT_TOKEN);
   }
 })();
 
-// Load Events
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = loadFiles(eventsPath, 'event');
 for (const file of eventFiles) {
@@ -86,10 +84,8 @@ client.login(process.env.DISCORD_BOT_TOKEN).then(() => {
   process.exit(1);
 });
 
-// Anti-crash protection
 process.on('unhandledRejection', error => {
   console.error('[ERROR] Unhandled promise rejection: ❌', error.message);
-  // Attempt to restart the bot on unhandled rejection
   client.login(process.env.DISCORD_BOT_TOKEN).catch(err => {
     console.error('[ERROR] Bot failed to restart: ❌', err);
   });
